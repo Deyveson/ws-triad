@@ -1,5 +1,9 @@
 package br.com.wstriad.service;
 
-public class AluguelService {
+import java.sql.Time;
+
+public interface AluguelService {
+
+    String createVouche (String palca, String horario, String modelo);
 
 }
