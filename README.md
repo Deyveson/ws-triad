@@ -1,4 +1,4 @@
-# ws-triad
+# ws-parking-lot
 Project - BackEnd - Spring Boot project documented with Swagger in TDD (JUnit)
 
 ## Installation and run
