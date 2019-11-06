@@ -89,21 +89,6 @@ public class AluguelServiceimpl implements AluguelService {
 			
 		});
 		
-			
-		
 		return voucher;
 	};
-	
-	public static String getWeek(String date){ //ex 07/03/2017
-        String dayWeek = "---";
-        GregorianCalendar gc = new GregorianCalendar();
-        try {
-            gc.setTime(new SimpleDateFormat("dd/MM/yyyy", new Locale("pt", "BR")).parse(date));
-           return new SimpleDateFormat("EEE", new Locale("pt", "BR")).format(gc.getTime()).toUpperCase();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return dayWeek;
-    }
-	
 }
