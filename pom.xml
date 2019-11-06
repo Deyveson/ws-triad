@@ -8,10 +8,10 @@
         <version>2.2.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>br.com.ws-triad</groupId>
-    <artifactId>ws-triad</artifactId>
+    <groupId>br.com.ws-parking-lot</groupId>
+    <artifactId>ws-parking-lot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ws-triad</name>
+    <name>ws-parking-lot</name>
     <description>Projeto back-end Triad</description>
 
     <properties>

@@ -1,9 +1,13 @@
 package br.com.wstriad.service;
 
-import java.sql.Time;
+import java.util.List;
+
+import br.com.wstriad.domain.Voucher;
 
 public interface AluguelService {
 
-    String createVouche (String palca, String horario, String modelo);
+    Voucher createVouche (String palca, String modelo, String cor);
+
+    Voucher payVoucher(Long vouche);
 
 }
