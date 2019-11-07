@@ -14,7 +14,7 @@ public class Voucher {
 	private Long id;
 
 	@OneToOne(cascade = { CascadeType.ALL, CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "voucher")
-	private Veiculo veiculo;
+	private Veiculo veiculo = new Veiculo();
 
 	@Column(name = "ENTRADA")
 	@JsonInclude(JsonInclude.Include.NON_NULL)

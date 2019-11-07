@@ -20,8 +20,8 @@ public class CarController {
 
     @RequestMapping(value = "/entrada", method = RequestMethod.POST)
     public Voucher createVoucher(@RequestParam(value = "placa", defaultValue = "", required = false) String palca,
-                                @RequestParam(value = "modelo", defaultValue = "", required = false) String modelo,
-                                @RequestParam(value = "cor", defaultValue = "", required = false) String cor){
+                                 @RequestParam(value = "modelo", defaultValue = "", required = false) String modelo,
+                                 @RequestParam(value = "cor", defaultValue = "", required = false) String cor){
         return service.createVouche(palca, modelo, cor);
     }
 

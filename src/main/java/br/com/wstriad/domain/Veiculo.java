@@ -9,75 +9,75 @@ import javax.persistence.*;
 @Table(name = "VEICULO")
 public class Veiculo {
 
-    @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+	@Id
+	@Column(name = "ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long ID;
 
-    @OneToOne
-    @JsonIgnore
-    private Voucher voucher;
+	@OneToOne
+	@JsonIgnore
+	private Voucher voucher;
 
-    @Column(name = "PLACA", columnDefinition = "VARCHAR(8)")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String placa;
+	@Column(name = "PLACA", columnDefinition = "VARCHAR(8)")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String placa;
 
-    @Column(name = "MODELO", columnDefinition = "VARCHAR(20)")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String modelo;
+	@Column(name = "MODELO", columnDefinition = "VARCHAR(20)")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String modelo;
 
-    @Column(name = "COR", columnDefinition = "VARCHAR(10)")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String cor;
+	@Column(name = "COR", columnDefinition = "VARCHAR(10)")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String cor;
 
-    public Veiculo(String placa, String modelo, String cor) {
-        this.placa = placa;
-        this.modelo = modelo;
-        this.cor = cor;
-    }
+	public Veiculo(String placa, String modelo, String cor) {
+		this.placa = placa;
+		this.modelo = modelo;
+		this.cor = cor;
+	}
 
-    public Veiculo() {
+	public Veiculo() {
 
-    }
+	}
 
-    public Long getID() {
-        return ID;
-    }
+	public Long getID() {
+		return ID;
+	}
 
-    public void setID(Long ID) {
-        this.ID = ID;
-    }
+	public void setID(Long ID) {
+		this.ID = ID;
+	}
 
-    public String getPlaca() {
-        return placa;
-    }
+	public String getPlaca() {
+		return placa;
+	}
 
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
+	public void setPlaca(String placa) {
+		this.placa = placa;
+	}
 
-    public String getModelo() {
-        return modelo;
-    }
+	public String getModelo() {
+		return modelo;
+	}
 
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
+	}
 
-    public String getCor() {
-        return cor;
-    }
+	public String getCor() {
+		return cor;
+	}
 
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
+	public void setCor(String cor) {
+		this.cor = cor;
+	}
 
-    public Voucher getVoucher() {
-        return voucher;
-    }
+	public Voucher getVoucher() {
+		return voucher;
+	}
 
-    public void setVoucher(Voucher voucher) {
-        this.voucher = voucher;
-    }
+	public void setVoucher(Voucher voucher) {
+		this.voucher = voucher;
+	}
 
 }

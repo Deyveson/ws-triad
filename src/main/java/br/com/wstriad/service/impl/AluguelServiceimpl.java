@@ -10,17 +10,9 @@ import br.com.wstriad.service.AluguelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-
 import javax.persistence.EntityNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service(value = "AluguelService")
 public class AluguelServiceimpl implements AluguelService {
@@ -37,58 +29,69 @@ public class AluguelServiceimpl implements AluguelService {
 	@Override
 	public Voucher createVouche(String placa, String modelo, String cor) {
 
-		Veiculo veiculo = new Veiculo();
-		
 		Voucher voucher = new Voucher();
 		Date dataAtual = new Date();
 
 		voucher.setEntrada(dataAtual);
-		voucher.setVeiculo(veiculo);
-		voucherRepository.save(voucher);
-		
-		veiculo = saveVeiculo(placa, modelo, cor, voucher);
 
-		return voucher;
+		voucher.getVeiculo().setPlaca(placa);
+		voucher.getVeiculo().setModelo(modelo);
+		voucher.getVeiculo().setCor(cor);
+		voucher.getVeiculo().setVoucher(voucher);
+
+		return voucherRepository.save(voucher);
 	}
 
-	public Veiculo saveVeiculo(String placa, String modelo, String cor, Voucher voucher) {
-
-		Veiculo veiculo = new Veiculo();
-
-		veiculo.setPlaca(placa);
-		veiculo.setModelo(modelo);
-		veiculo.setCor(cor);
-		veiculo.setVoucher(voucher);
-		
-
-		veiculoRespository.save(veiculo);
-
-		return veiculo;
-	};
-
 	@Override
-	public Voucher payVoucher(Long vouche) {
+    public Voucher payVoucher(Long vouche) {
 
-		Voucher voucher;
-		Date dataAtual = new Date();
-		List<RegraPreco> regraPrecos;
-		GregorianCalendar gc = new GregorianCalendar();
-		SimpleDateFormat sdf = new SimpleDateFormat();
-		
-		voucher = voucherRepository.findById(vouche).orElseThrow(() -> 
-		new EntityNotFoundException("CHORA"));
-		
-		regraPrecos = precoRepository.findAll();
-		
-		voucher.setSaida(dataAtual);
-		
-		regraPrecos.forEach(regraPreco -> {
-			
-			System.out.println("Dia: " + regraPreco.getDias() + "/ Valor:" + regraPreco.getValor());
-			System.out.println("Dia Atual: " + gc.get(Calendar.DAY_OF_WEEK));
-			
-		});
-		
-		return voucher;
+        Voucher voucher;
+        List<RegraPreco> regraPrecos;
+        Date dataAtual = new Date();
+        GregorianCalendar gc = new GregorianCalendar();
+
+        voucher = voucherRepository.findById(vouche).orElseThrow(() ->
+                new EntityNotFoundException("Voucher não existe, ou codigo foi digitado errado"));
+
+        regraPrecos = precoRepository.findAll();
+
+        regraPrecos.forEach(regraPreco -> {
+            if (gc.get(Calendar.DAY_OF_WEEK) >= regraPreco.getDia_inicio() &&
+                    gc.get(Calendar.DAY_OF_WEEK) <= regraPreco.getDia_final()) {
+	        	
+	        	 Boolean horario = checkHora(regraPreco.getHora_inicio(), regraPreco.getHora_final(), regraPreco);
+
+	        	 if(horario == true) {
+	        		 voucher.setSaida(dataAtual);
+	                 voucher.setPreco(regraPreco.getValor());
+                     voucherRepository.save(voucher);
+	        	 }
+            }
+        });
+
+        return voucher;
+    };
+
+	public Boolean checkHora(Date inicio, Date fim, RegraPreco regraPreco) {
+
+		Date date = new Date();
+		SimpleDateFormat sdfo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+		try {
+
+			Date dataAtual = sdfo.parse(sdfo.format(date));
+			Date dataInicial = sdfo.parse(inicio.toString());
+			Date dataFinal = sdfo.parse(fim.toString());
+
+			if (dataAtual.compareTo(dataInicial) > 0 && dataAtual.compareTo(dataFinal) < 0) {
+				return true;
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return false;
 	};
+
 }
