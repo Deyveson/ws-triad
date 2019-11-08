@@ -1,8 +1,8 @@
 package br.com.wstriad.service.impl;
 
 import br.com.wstriad.domain.RegraPreco;
-import br.com.wstriad.domain.Veiculo;
 import br.com.wstriad.domain.Voucher;
+import br.com.wstriad.dto.RealatorioDTO;
 import br.com.wstriad.repository.RegraPrecoRepository;
 import br.com.wstriad.repository.VeiculoRespository;
 import br.com.wstriad.repository.VoucherRepository;
@@ -17,32 +17,32 @@ import java.util.*;
 @Service(value = "AluguelService")
 public class AluguelServiceimpl implements AluguelService {
 
-	@Autowired
-	RegraPrecoRepository precoRepository;
+    @Autowired
+    RegraPrecoRepository precoRepository;
 
-	@Autowired
-	VeiculoRespository veiculoRespository;
+    @Autowired
+    VeiculoRespository veiculoRespository;
 
-	@Autowired
-	VoucherRepository voucherRepository;
+    @Autowired
+    VoucherRepository voucherRepository;
 
-	@Override
-	public Voucher createVouche(String placa, String modelo, String cor) {
+    @Override
+    public Voucher createVouche(String placa, String modelo, String cor) {
 
-		Voucher voucher = new Voucher();
-		Date dataAtual = new Date();
+        Voucher voucher = new Voucher();
+        Date dataAtual = new Date();
 
-		voucher.setEntrada(dataAtual);
+        voucher.setEntrada(dataAtual);
 
-		voucher.getVeiculo().setPlaca(placa);
-		voucher.getVeiculo().setModelo(modelo);
-		voucher.getVeiculo().setCor(cor);
-		voucher.getVeiculo().setVoucher(voucher);
+        voucher.getVeiculo().setPlaca(placa);
+        voucher.getVeiculo().setModelo(modelo);
+        voucher.getVeiculo().setCor(cor);
+        voucher.getVeiculo().setVoucher(voucher);
 
-		return voucherRepository.save(voucher);
-	}
+        return voucherRepository.save(voucher);
+    }
 
-	@Override
+    @Override
     public Voucher payVoucher(Long vouche) {
 
         Voucher voucher;
@@ -58,40 +58,65 @@ public class AluguelServiceimpl implements AluguelService {
         regraPrecos.forEach(regraPreco -> {
             if (gc.get(Calendar.DAY_OF_WEEK) >= regraPreco.getDia_inicio() &&
                     gc.get(Calendar.DAY_OF_WEEK) <= regraPreco.getDia_final()) {
-	        	
-	        	 Boolean horario = checkHora(regraPreco.getHora_inicio(), regraPreco.getHora_final(), regraPreco);
 
-	        	 if(horario == true) {
-	        		 voucher.setSaida(dataAtual);
-	                 voucher.setPreco(regraPreco.getValor());
-                     voucherRepository.save(voucher);
-	        	 }
+                Boolean horario = checkHora(regraPreco.getHora_inicio(), regraPreco.getHora_final(), regraPreco);
+
+                if (horario == true) {
+                    voucher.setSaida(dataAtual);
+                    voucher.setPreco(regraPreco.getValor());
+                    voucherRepository.save(voucher);
+                }
             }
         });
 
         return voucher;
-    };
+    }
 
-	public Boolean checkHora(Date inicio, Date fim, RegraPreco regraPreco) {
+    ;
 
-		Date date = new Date();
-		SimpleDateFormat sdfo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    public Boolean checkHora(Date inicio, Date fim, RegraPreco regraPreco) {
 
-		try {
+        Date date = new Date();
+        SimpleDateFormat sdfo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-			Date dataAtual = sdfo.parse(sdfo.format(date));
-			Date dataInicial = sdfo.parse(inicio.toString());
-			Date dataFinal = sdfo.parse(fim.toString());
+        try {
 
-			if (dataAtual.compareTo(dataInicial) > 0 && dataAtual.compareTo(dataFinal) < 0) {
-				return true;
-			}
+            Date dataAtual = sdfo.parse(sdfo.format(date));
+            Date dataInicial = sdfo.parse(inicio.toString());
+            Date dataFinal = sdfo.parse(fim.toString());
 
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+            if (dataAtual.compareTo(dataInicial) > 0 && dataAtual.compareTo(dataFinal) < 0) {
+                return true;
+            }
 
-		return false;
-	};
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        return false;
+    }
+
+    ;
+
+
+    public String faturamento(String dia) {
+
+//        Date date = new Date(2019, 11, 9, 18, 00);
+//
+//		String dateinicio = "2019-11-08";
+//        String datefim = "2019-11-08 18:00";
+//
+//        System.out.println(dia);
+//        List<RealatorioDTO> listvoucher = voucherRepository.findFaturamento(1);
+//
+//        listvoucher.forEach(res -> {
+//            System.out.println("Voucher ------> " + res.getTotal());
+//        });
+
+        return "Sucesso";
+    }
+
+    ;
+
 
 }
